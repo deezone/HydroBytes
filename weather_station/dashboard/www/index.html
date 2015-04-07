@@ -8,7 +8,7 @@
       body {
         text-align: center;
       }      
-      #g1 {
+      #g1, #g2, #g3 {
         width:400px; height:320px;
         display: inline-block;
         margin: 1em;
@@ -21,29 +21,40 @@
       var g1;
   window.onload = function(){
     var g1 = new JustGage({
-      id: "g1", 
-      value: 0, 
+      id: "g1",
+      value: 0,
       min: 0,
       max: 100,
       title: "Temperature",
       label: "Temperature"
     });
     var g2 = new JustGage({
-      id: "g2", 
-      value: 0, 
+      id: "g2",
+      value: 0,
       min: 0,
       max: 100,
       title: "Humidity",
       label: "Humidity"
     });
+    var g3 = new JustGage({
+      id: "g3",
+      value: 0,
+      min: 0,
+      max: 100,
+      title: "Heat Index",
+      label: "Heat Index"
+    });
     setInterval(function() {
         $.get('/arduino/temp', function (newValue) { g1.refresh(newValue); });
-        $.get('/arduino/hum', function (newValue) { g2.refresh(newValue); });  
+        $.get('/arduino/hum', function (newValue) { g2.refresh(newValue); });
+        $.get('/arduino/heat', function (newValue) { g3.refresh(newValue); });
     }, 2000);
   };
     </script>
   </head>
   <body>    
     <div id="g1"></div>
+    <div id="g2"></div>
+    <div id="g3"></div>
   </body>
 </html>
