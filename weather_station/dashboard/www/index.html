@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- http://forum.arduino.cc/index.php?topic=221431.msg1610137#msg1610137 ->
 <html>
   <head>
     <title>Auto-adjust</title>
@@ -27,8 +28,17 @@
       title: "Temperature",
       label: "Temperature"
     });
+    var g2 = new JustGage({
+      id: "g2", 
+      value: 0, 
+      min: 0,
+      max: 100,
+      title: "Humidity",
+      label: "Humidity"
+    });
     setInterval(function() {
-        $.get('http://10.0.1.18/arduino/temp', function (newValue) { g1.refresh(newValue); });         
+        $.get('/arduino/temp', function (newValue) { g1.refresh(newValue); });
+        $.get('/arduino/hum', function (newValue) { g2.refresh(newValue); });  
     }, 2000);
   };
     </script>
