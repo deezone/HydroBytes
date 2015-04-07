@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Auto-adjust</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+      body {
+        text-align: center;
+      }      
+      #g1 {
+        width:400px; height:320px;
+        display: inline-block;
+        margin: 1em;
+      }
+    </style> 
+    <script src="raphael.2.1.2.min.js"></script>
+    <script src="justgage.1.0.1.min.js"></script>
+    <script src="zepto.min.js"></script>
+    <script>
+      var g1;
+  window.onload = function(){
+    var g1 = new JustGage({
+      id: "g1", 
+      value: 0, 
+      min: 0,
+      max: 100,
+      title: "Temperature",
+      label: "Temperature"
+    });
+    setInterval(function() {
+        $.get('http://10.0.1.18/arduino/temp', function (newValue) { g1.refresh(newValue); });         
+    }, 2000);
+  };
+    </script>
+  </head>
+  <body>    
+    <div id="g1"></div>
+  </body>
+</html>
