@@ -30,6 +30,7 @@ void loop() {
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
   float h = dht.readHumidity();
   float t = dht.readTemperature(true);
+  float hi = dht.computeHeatIndex(f, h);
 
   if (client) {
     // read the command
@@ -43,6 +44,10 @@ void loop() {
      if (request == "hum") {
       //client.print("<br>Current Humidity: ");
       client.print(h);
+     }
+     if (request == "heat") {
+      //client.print("<br>Current Heat Index: ");
+      client.print(hi);
      }
      if (request == "time") {
       // get the time from the server:
