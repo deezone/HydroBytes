@@ -29,24 +29,37 @@ void loop() {
   // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
   float h = dht.readHumidity();
-  float t = dht.readTemperature(true);
+  
+  // Read temperature as Celsius
+  float c = dht.readTemperature();
+  
+  // Read temperature as Fahrenheit
+  float f = dht.readTemperature(true);
+  
+  // Compute heat index
+  // Must send in temp in Fahrenheit!
   float hi = dht.computeHeatIndex(f, h);
 
   if (client) {
     // read the command
     String request  = client.readString();
     request.trim();   //kill whitespace
-     if (request == "temp") {
+     if (request == "tempf") {
       //client.print("<br>Current Temperature: ");
-      client.print(t);
+      client.print(f);
       //client.print(" degrees F");
+     }
+     if (request == "tempc") {
+      //client.print("<br>Current Temperature: ");
+      client.print(c);
+      //client.print(" degrees C");
      }
      if (request == "hum") {
       //client.print("<br>Current Humidity: ");
       client.print(h);
      }
-     if (request == "heat") {
-      //client.print("<br>Current Heat Index: ");
+     if (request == "hi") {
+      //client.print("<br>Heat Index: ");
       client.print(hi);
      }
      if (request == "time") {
