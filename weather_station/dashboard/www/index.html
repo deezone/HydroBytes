@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- http://forum.arduino.cc/index.php?topic=221431.msg1610137#msg1610137 ->
+<!-- http://forum.arduino.cc/index.php?topic=221431.msg1610137#msg1610137 -->
 <html>
   <head>
     <title>Auto-adjust</title>
@@ -45,15 +45,15 @@
       label: "Heat Index"
     });
     setInterval(function() {
-        $.get('/arduino/temp', function (newValue) { g1.refresh(newValue); });
-        $.get('/arduino/hum', function (newValue) { g2.refresh(newValue); });
-        $.get('/arduino/heat', function (newValue) { g3.refresh(newValue); });
+        $.get('http://10.0.1.18/arduino/tempf', function (newValue) { g1.refresh(newValue); });
+        $.get('http://10.0.1.18/arduino/hum', function (newValue) { g2.refresh(newValue); });
+        $.get('http://10.0.1.18/arduino/hi', function (newValue) { g3.refresh(newValue); });
     }, 2000);
   };
     </script>
   </head>
   <body>    
-    <div id="g1"></div>
+    BLA<div id="g1"></div>
     <div id="g2"></div>
     <div id="g3"></div>
   </body>
