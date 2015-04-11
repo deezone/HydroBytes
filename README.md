@@ -5,8 +5,8 @@ A collection of projects using Internet of Things (IOT) technologies to manage h
 A standalone sensor platform for collecting readings related to the surrounding weather conditions.
 
 ##### Sensors
-- DHT11 : Humitity and tempature
-  - Temperature range :0-50 ¡C error of ± 2 ¡C
+- DHT11 : Humitity and temperature
+  - Temperature range :0-50¡C error of ± 2¡C
   - Humidity :20-90% RH ± 5% RH error
   - Interface: Digital
 - LSR : Light Sensitive Resistor, a type of variable resistor that responds to light.
