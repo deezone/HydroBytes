@@ -3,7 +3,9 @@
 #include <YunClient.h> 
 
 #include "DHT.h"
+
 #define DHTPIN 2     // what pin we're connected to
+int analogPin = A0;
 
 #define DHTTYPE DHT11   // DHT 11 
 
@@ -25,17 +27,20 @@ void setup() {
 
 void loop() {
   YunClient client = server.accept();
-  
+
+  // Light sensor
+  int lsr = analogRead(analogPin);
+
   // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
   float h = dht.readHumidity();
-  
+
   // Read temperature as Celsius
   float c = dht.readTemperature();
-  
+
   // Read temperature as Fahrenheit
   float f = dht.readTemperature(true);
-  
+
   // Compute heat index
   // Must send in temp in Fahrenheit!
   float hi = dht.computeHeatIndex(f, h);
@@ -61,6 +66,10 @@ void loop() {
      if (request == "hi") {
       //client.print("<br>Heat Index: ");
       client.print(hi);
+     }
+     if (request == "light") {
+      //client.print("<br>Light: ");
+      client.print(lsr);
      }
      if (request == "time") {
       // get the time from the server:
