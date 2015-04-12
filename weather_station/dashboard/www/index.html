@@ -45,39 +45,43 @@
         label: "Heat Index"
       });
       setInterval(function(){
-        // $.get('http://10.0.1.18/arduino/tempf', function (newValue) { g1.refresh(newValue); });
         
-        $.ajax({
-            type: 'GET',
-            url: "http://10.0.1.18/arduino/tempf",
+        setTimer(function(){
+          $.ajax({
+              type: 'GET',
+              url: "http://10.0.1.18/arduino/tempf",
+              success: function( response ) {
+                  console.log( response ); // server response
+                  g1.refresh(response.value);
+              },
+          });
+        }, 5000);
 
-            success: function( response ) {
-                console.log( response ); // server response
-                g1.refresh(response.value);
-            },
-        });
+        setTimer(function(){
+          $.ajax({
+              type: 'GET',
+              url: "http://10.0.1.18/arduino/hum",
+  
+              success: function( response ) {
+                  console.log( response ); // server response
+                  g2.refresh(response.value);
+              },
+          });
+        }, 5000);
+
+        setTimer(function(){
+          $.ajax({
+              type: 'GET',
+              url: "http://10.0.1.18/arduino/hif",
+  
+              success: function( response ) {
+                  console.log( response ); // server response
+                  g3.refresh(response.value);
+              },
+          });
+        }, 5000);
         
-        $.ajax({
-            type: 'GET',
-            url: "http://10.0.1.18/arduino/hum",
-
-            success: function( response ) {
-                console.log( response ); // server response
-                g2.refresh(response.value);
-            },
-        });
-
-        $.ajax({
-            type: 'GET',
-            url: "http://10.0.1.18/arduino/hif",
-
-            success: function( response ) {
-                console.log( response ); // server response
-                g3.refresh(response.value);
-            },
-        });
-        
-      }, 2000);
+      }, 600000);
   };
 
     </script>
