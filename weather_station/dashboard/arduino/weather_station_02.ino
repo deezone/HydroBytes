@@ -46,7 +46,7 @@ void loop() {
 
   // Compute heat index
   // Must send in temp in Fahrenheit!
-  float hi = dht.computeHeatIndex(f, h);
+  float hif = dht.computeHeatIndex(f, h);
 
   // How cold? (temperature and humidity with Arduino)
   // http://wodieskodie.com/how-cold-temperature-and-humidity-with-arduino/
@@ -63,7 +63,10 @@ void loop() {
         client.println("Access-Control-Allow-Origin: *");
 
         // JSON response
-        client.print("{\"type\":\"temperature\",\"scale\":\"fahrenheit\",\"title\":\"Fahrenheit\", \"value\":\"");
+        client.print("{\"type\":\"temperature\",");
+        client.print("\"scale\":\"fahrenheit\",");
+        client.print("\"title\":\"Fahrenheit\",");
+        client.print("\"value\":\"");
         client.print(f);
         client.print("\"}");
       }
@@ -73,24 +76,57 @@ void loop() {
         client.println("Content-type: text/javascript");
         client.println("Access-Control-Allow-Origin: *");
 
-        client.print("{\"type\":\"tempature!\"}");
-        client.print("{\"title\":\"Celsius\"}"); 
-        client.print("{\"value\":\"f\"}");
+        // JSON response
+        client.print("{\"type\":\"temperature\",");
+        client.print("\"scale\":\"celsius\",");
+        client.print("\"title\":\"Celsius\",");
+        client.print("\"value\":\"");
+        client.print(c);
+        client.print("\"}");
       }
-     if (request == "tempc") {
-      //client.print("<br>Current Temperature: ");
-      client.print(c);
-      //client.print(" degrees C");
-     }
-     if (request == "tempk") {
-      //client.print("<br>Current Temperature: ");
-      client.print(k);
-      //client.print(" degrees K");
-     }
-     if (request == "hum") {
-      //client.print("<br>Current Humidity: ");
-      client.print(h);
-     }
+
+      if (request == "tempk") {
+        client.println("HTTP/1.1 200 OK");
+        client.println("Content-type: text/javascript");
+        client.println("Access-Control-Allow-Origin: *");
+
+        // JSON response
+        client.print("{\"type\":\"temperature\",");
+        client.print("\"scale\":\"kelvin\",");
+        client.print("\"title\":\"Kelvin\",");
+        client.print("\"value\":\"");
+        client.print(k);
+        client.print("\"}");
+      }
+
+      if (request == "hum") {
+        client.println("HTTP/1.1 200 OK");
+        client.println("Content-type: text/javascript");
+        client.println("Access-Control-Allow-Origin: *");
+
+        // JSON response
+        client.print("{\"type\":\"humidity\",");
+        client.print("\"scale\":\"%\",");
+        client.print("\"title\":\"Humidity\",");
+        client.print("\"value\":\"");
+        client.print(h);
+        client.print("\"}");
+      }
+
+      if (request == "hif") {
+        client.println("HTTP/1.1 200 OK");
+        client.println("Content-type: text/javascript");
+        client.println("Access-Control-Allow-Origin: *");
+
+        // JSON response
+        client.print("{\"type\":\"index\",");
+        client.print("\"scale\":\"\",");
+        client.print("\"title\":\"Apparent” Temperature (Heat Index) in Fahrenheit\",");
+        client.print("\"value\":\"");
+        client.print(hif);
+        client.print("\"}");
+      }
+
      if (request == "hi") {
       //client.print("<br>Heat Index: ");
       client.print(hi);
