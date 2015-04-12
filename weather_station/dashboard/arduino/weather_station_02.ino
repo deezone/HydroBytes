@@ -47,7 +47,8 @@ void loop() {
   // Compute heat index
   // Must send in temp in Fahrenheit!
   float hif = dht.computeHeatIndex(f, h);
-
+  float hic = fToC(hif);
+  
   // How cold? (temperature and humidity with Arduino)
   // http://wodieskodie.com/how-cold-temperature-and-humidity-with-arduino/
   float dp = dewPoint(c, h);
@@ -73,10 +74,7 @@ void loop() {
       }
       
       if (request == "tempc") {
-        client.println("Status: 200");
-        client.println("Content-type: application/json");
-        client.println("Access-Control-Allow-Origin: *");
-        client.println(); //mandatory blank line
+        remoteJSONHeaders();
 
         // JSON response
         client.print("{\"type\":\"temperature\",");
@@ -131,6 +129,21 @@ void loop() {
         client.print(hif);
         client.print("\"}");
       }
+      
+      if (request == "hic") {
+        client.println("Status: 200");
+        client.println("Content-type: application/json");
+        client.println("Access-Control-Allow-Origin: *");
+        client.println(); //mandatory blank line
+
+        // JSON response
+        client.print("{\"type\":\"index\",");
+        client.print("\"scale\":\"Apparent Temperature (Heat Index) in Celsius\",");
+        client.print("\"title\":\"Heat Index\",");
+        client.print("\"value\":\"");
+        client.print(hic);
+        client.print("\"}");
+      }
 
      if (request == "dp") {
       //client.print("<br>Dew Point: ");
@@ -174,4 +187,20 @@ double dewPoint(double celsius, double humidity) {
   double T = log(VP/0.61078); // temp var
 
   return (241.88 * T) / (17.558-T);
+}
+
+// Fahrenheit to Celsius formula
+// http://www.rapidtables.com/convert/temperature/how-fahrenheit-to-celsius.htm
+// T(C) = (T(F) - 32) x 5/9
+double fToC(double fahrenheit) {
+  return ((fahrenheit - 32) * 5/9);
+}
+
+// Common JSON response headers to allow remote API calls
+void remoteJSONHeaders() {
+  YunClient client = server.accept();
+  client.println("Status: 200");
+  client.println("Content-type: application/json");
+  client.println("Access-Control-Allow-Origin: *");
+  client.println(); //mandatory blank line
 }
