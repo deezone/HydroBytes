@@ -48,122 +48,138 @@ void loop() {
   // Must send in temp in Fahrenheit!
   float hif = dht.computeHeatIndex(f, h);
   float hic = fToC(hif);
-  
+
   // How cold? (temperature and humidity with Arduino)
   // http://wodieskodie.com/how-cold-temperature-and-humidity-with-arduino/
   float dp = dewPoint(c, h);
 
+  // get the time from the server:
+  Process time;
+  time.runShellCommand("date");
+  String timeString = "";
+  while (time.available()) {
+    char c = time.read();
+    timeString += c;
+  }
+
   if (client) {
+
     // read the command
     String request  = client.readString();
     request.trim();   //kill whitespace
 
-      if (request == "tempf") {
-        client.println("Status: 200");
-        client.println("Content-type: application/json");
-        client.println("Access-Control-Allow-Origin: *");
-        client.println(); //mandatory blank line
+    if (request == "tempf") {
+      remoteJSONHeaders();
 
-        // JSON response
-        client.print("{\"type\":\"temperature\",");
-        client.print("\"scale\":\"fahrenheit\",");
-        client.print("\"title\":\"Fahrenheit\",");
-        client.print("\"value\":\"");
-        client.print(f);
-        client.print("\"}");
-      }
-      
-      if (request == "tempc") {
-        remoteJSONHeaders();
+      // JSON response
+      client.print("{\"type\":\"temperature\",");
+      client.print("\"scale\":\"fahrenheit\",");
+      client.print("\"title\":\"Fahrenheit\",");
+      client.print("\"value\":\"");
+      client.print(f);
+      client.print("\"}");
+    }
 
-        // JSON response
-        client.print("{\"type\":\"temperature\",");
-        client.print("\"scale\":\"celsius\",");
-        client.print("\"title\":\"Celsius\",");
-        client.print("\"value\":\"");
-        client.print(c);
-        client.print("\"}");
-      }
-      
-      if (request == "tempk") {
-        client.println("Status: 200");
-        client.println("Content-type: application/json");
-        client.println("Access-Control-Allow-Origin: *");
-        client.println(); //mandatory blank line
+    if (request == "tempc") {
+      remoteJSONHeaders();
 
-        // JSON response
-        client.print("{\"type\":\"temperature\",");
-        client.print("\"scale\":\"kelvin\",");
-        client.print("\"title\":\"Kelvin\",");
-        client.print("\"value\":\"");
-        client.print(k);
-        client.print("\"}");
-      }
+      // JSON response
+      client.print("{\"type\":\"temperature\",");
+      client.print("\"scale\":\"celsius\",");
+      client.print("\"title\":\"Celsius\",");
+      client.print("\"value\":\"");
+      client.print(c);
+      client.print("\"}");
+    }
 
-      if (request == "hum") {
-        client.println("Status: 200");
-        client.println("Content-type: application/json");
-        client.println("Access-Control-Allow-Origin: *");
-        client.println(); //mandatory blank line
+    if (request == "tempk") {
+      remoteJSONHeaders();
 
-        // JSON response
-        client.print("{\"type\":\"humidity\",");
-        client.print("\"scale\":\"percentage\",");
-        client.print("\"title\":\"Humidity\",");
-        client.print("\"value\":\"");
-        client.print(h);
-        client.print("\"}");
-      }
+      // JSON response
+      client.print("{\"type\":\"temperature\",");
+      client.print("\"scale\":\"kelvin\",");
+      client.print("\"title\":\"Kelvin\",");
+      client.print("\"value\":\"");
+      client.print(k);
+      client.print("\"}");
+    }
 
-      if (request == "hif") {
-        client.println("Status: 200");
-        client.println("Content-type: application/json");
-        client.println("Access-Control-Allow-Origin: *");
-        client.println(); //mandatory blank line
+    if (request == "hum") {
+      remoteJSONHeaders();
 
-        // JSON response
-        client.print("{\"type\":\"index\",");
-        client.print("\"scale\":\"Apparent Temperature (Heat Index) in Fahrenheit\",");
-        client.print("\"title\":\"Heat Index\",");
-        client.print("\"value\":\"");
-        client.print(hif);
-        client.print("\"}");
-      }
-      
-      if (request == "hic") {
-        client.println("Status: 200");
-        client.println("Content-type: application/json");
-        client.println("Access-Control-Allow-Origin: *");
-        client.println(); //mandatory blank line
+      // JSON response
+      client.print("{\"type\":\"humidity\",");
+      client.print("\"scale\":\"percentage\",");
+      client.print("\"title\":\"Humidity\",");
+      client.print("\"value\":\"");
+      client.print(h);
+      client.print("\"}");
+    }
 
-        // JSON response
-        client.print("{\"type\":\"index\",");
-        client.print("\"scale\":\"Apparent Temperature (Heat Index) in Celsius\",");
-        client.print("\"title\":\"Heat Index\",");
-        client.print("\"value\":\"");
-        client.print(hic);
-        client.print("\"}");
-      }
+    if (request == "hif") {
+      remoteJSONHeaders();
 
-     if (request == "dp") {
-      //client.print("<br>Dew Point: ");
+      // JSON response
+      client.print("{\"type\":\"index\",");
+      client.print("\"scale\":\"Apparent Temperature (Heat Index) in Fahrenheit\",");
+      client.print("\"title\":\"Heat Index\",");
+      client.print("\"value\":\"");
+      client.print(hif);
+      client.print("\"}");
+    }
+
+    if (request == "hic") {
+      remoteJSONHeaders();
+
+      // JSON response
+      client.print("{\"type\":\"index\",");
+      client.print("\"scale\":\"temperature\",");
+      client.print("\"title\":\"Heat Index\",");
+      client.print("\"description\":\"Apparent Temperature (Heat Index) in Celsius\",");
+      client.print("\"value\":\"");
+      client.print(hic);
+      client.print("\"}");
+    }
+
+    if (request == "dp") {
+      remoteJSONHeaders();
+
+      // JSON response
+      client.print("{\"type\":\"index\",");
+      client.print("\"scale\":\"temperature\",");
+      client.print("\"title\":\"Dew Point\",");
+      client.print("\"description\":\"At temperatures below the dew point, water will leave the air.\",");
+      client.print("\"value\":\"");
       client.print(dp);
-     }
-     if (request == "light") {
-      //client.print("<br>Light: ");
+      client.print("\"}");
+    }
+
+    if (request == "light") {
+      remoteJSONHeaders();
+
+      // JSON response
+      client.print("{\"type\":\"index\",");
+      client.print("\"scale\":\"lux\",");
+      client.print("\"title\":\"Light\",");
+      client.print("\"description\":\"A measure of light intensity, as perceived by the human eye.\",");
+      client.print("\"value\":\"");
       client.print(lsr);
-     }
-     if (request == "time") {
-      // get the time from the server:
-      Process time;
-      time.runShellCommand("date");
-      String timeString = "";
-      while (time.available()) {
-        char c = time.read();
-        timeString += c;
-      }
+      client.print("\"}");
+    }
+
+    if (request == "time") {
+      remoteJSONHeaders();
+
+      // JSON response
+      client.print("{\"type\":\"time\",");
+      client.print("\"scale\":\"time\",");
+      client.print("\"title\":\"Time\",");
+      client.print("\"description\":\"The current system time.\",");
+      client.print("\"value\":\"");
       client.print(timeString);
-      }
+      client.print("\"}");
+    }
+
     client.stop();
   }
   delay(50);
