@@ -58,9 +58,10 @@ void loop() {
     request.trim();   //kill whitespace
 
       if (request == "tempf") {
-        client.println("HTTP/1.1 200 OK");
-        client.println("Content-type: text/javascript");
+        client.println("Status: 200");
+        client.println("Content-type: application/json");
         client.println("Access-Control-Allow-Origin: *");
+        client.println(); //mandatory blank line
 
         // JSON response
         client.print("{\"type\":\"temperature\",");
@@ -70,11 +71,12 @@ void loop() {
         client.print(f);
         client.print("\"}");
       }
-
+      
       if (request == "tempc") {
-        client.println("HTTP/1.1 200 OK");
-        client.println("Content-type: text/javascript");
+        client.println("Status: 200");
+        client.println("Content-type: application/json");
         client.println("Access-Control-Allow-Origin: *");
+        client.println(); //mandatory blank line
 
         // JSON response
         client.print("{\"type\":\"temperature\",");
@@ -84,11 +86,12 @@ void loop() {
         client.print(c);
         client.print("\"}");
       }
-
+      
       if (request == "tempk") {
-        client.println("HTTP/1.1 200 OK");
-        client.println("Content-type: text/javascript");
+        client.println("Status: 200");
+        client.println("Content-type: application/json");
         client.println("Access-Control-Allow-Origin: *");
+        client.println(); //mandatory blank line
 
         // JSON response
         client.print("{\"type\":\"temperature\",");
@@ -100,13 +103,14 @@ void loop() {
       }
 
       if (request == "hum") {
-        client.println("HTTP/1.1 200 OK");
-        client.println("Content-type: text/javascript");
+        client.println("Status: 200");
+        client.println("Content-type: application/json");
         client.println("Access-Control-Allow-Origin: *");
+        client.println(); //mandatory blank line
 
         // JSON response
         client.print("{\"type\":\"humidity\",");
-        client.print("\"scale\":\"%\",");
+        client.print("\"scale\":\"percentage\",");
         client.print("\"title\":\"Humidity\",");
         client.print("\"value\":\"");
         client.print(h);
@@ -114,23 +118,20 @@ void loop() {
       }
 
       if (request == "hif") {
-        client.println("HTTP/1.1 200 OK");
-        client.println("Content-type: text/javascript");
+        client.println("Status: 200");
+        client.println("Content-type: application/json");
         client.println("Access-Control-Allow-Origin: *");
+        client.println(); //mandatory blank line
 
         // JSON response
         client.print("{\"type\":\"index\",");
-        client.print("\"scale\":\"\",");
-        client.print("\"title\":\"Apparent” Temperature (Heat Index) in Fahrenheit\",");
+        client.print("\"scale\":\"Apparent Temperature (Heat Index) in Fahrenheit\",");
+        client.print("\"title\":\"Heat Index\",");
         client.print("\"value\":\"");
         client.print(hif);
         client.print("\"}");
       }
 
-     if (request == "hi") {
-      //client.print("<br>Heat Index: ");
-      client.print(hi);
-     }
      if (request == "dp") {
       //client.print("<br>Dew Point: ");
       client.print(dp);

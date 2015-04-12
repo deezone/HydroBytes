@@ -19,37 +19,67 @@
     <script src="zepto.min.js"></script>
     <script>
       var g1;
-  window.onload = function(){
-    var g1 = new JustGage({
-      id: "g1",
-      value: 0,
-      min: 0,
-      max: 100,
-      title: "Temperature",
-      label: "Temperature"
-    });
-    var g2 = new JustGage({
-      id: "g2",
-      value: 0,
-      min: 0,
-      max: 100,
-      title: "Humidity",
-      label: "Humidity"
-    });
-    var g3 = new JustGage({
-      id: "g3",
-      value: 0,
-      min: 0,
-      max: 100,
-      title: "Heat Index",
-      label: "Heat Index"
-    });
-    setInterval(function() {
-        $.get('http://10.0.1.18/arduino/tempf', function (newValue) { g1.refresh(newValue); });
-        $.get('http://10.0.1.18/arduino/hum', function (newValue) { g2.refresh(newValue); });
-        $.get('http://10.0.1.18/arduino/hi', function (newValue) { g3.refresh(newValue); });
-    }, 2000);
+      window.onload = function(){
+        var g1 = new JustGage({
+        id: "g1",
+        value: 0,
+        min: 0,
+        max: 100,
+        title: "Temperature",
+        label: "Temperature"
+      });
+      var g2 = new JustGage({
+        id: "g2",
+        value: 0,
+        min: 0,
+        max: 100,
+        title: "Humidity",
+        label: "Humidity"
+      });
+      var g3 = new JustGage({
+        id: "g3",
+        value: 0,
+        min: 0,
+        max: 100,
+        title: "Heat Index",
+        label: "Heat Index"
+      });
+      setInterval(function(){
+        // $.get('http://10.0.1.18/arduino/tempf', function (newValue) { g1.refresh(newValue); });
+        
+        $.ajax({
+            type: 'GET',
+            url: "http://10.0.1.18/arduino/tempf",
+
+            success: function( response ) {
+                console.log( response ); // server response
+                g1.refresh(response.value);
+            },
+        });
+        
+        $.ajax({
+            type: 'GET',
+            url: "http://10.0.1.18/arduino/hum",
+
+            success: function( response ) {
+                console.log( response ); // server response
+                g2.refresh(response.value);
+            },
+        });
+
+        $.ajax({
+            type: 'GET',
+            url: "http://10.0.1.18/arduino/hif",
+
+            success: function( response ) {
+                console.log( response ); // server response
+                g3.refresh(response.value);
+            },
+        });
+        
+      }, 2000);
   };
+
     </script>
   </head>
   <body>    
