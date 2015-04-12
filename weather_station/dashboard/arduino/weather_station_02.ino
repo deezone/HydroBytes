@@ -56,11 +56,27 @@ void loop() {
     // read the command
     String request  = client.readString();
     request.trim();   //kill whitespace
-     if (request == "tempf") {
-      //client.print("<br>Current Temperature: ");
-      client.print(f);
-      //client.print(" degrees F");
-     }
+
+      if (request == "tempf") {
+        client.println("HTTP/1.1 200 OK");
+        client.println("Content-type: text/javascript");
+        client.println("Access-Control-Allow-Origin: *");
+
+        // JSON response
+        client.print("{\"type\":\"temperature\",\"scale\":\"fahrenheit\",\"title\":\"Fahrenheit\", \"value\":\"");
+        client.print(f);
+        client.print("\"}");
+      }
+
+      if (request == "tempc") {
+        client.println("HTTP/1.1 200 OK");
+        client.println("Content-type: text/javascript");
+        client.println("Access-Control-Allow-Origin: *");
+
+        client.print("{\"type\":\"tempature!\"}");
+        client.print("{\"title\":\"Celsius\"}"); 
+        client.print("{\"value\":\"f\"}");
+      }
      if (request == "tempc") {
       //client.print("<br>Current Temperature: ");
       client.print(c);
