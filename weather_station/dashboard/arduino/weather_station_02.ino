@@ -69,7 +69,10 @@ void loop() {
     request.trim();   //kill whitespace
 
     if (request == "tempf") {
-      remoteJSONHeaders();
+      client.println("Status: 200");
+      client.println("Content-type: application/json");
+      client.println("Access-Control-Allow-Origin: *");
+      client.println(); //mandatory blank line
 
       // JSON response
       client.print("{\"type\":\"temperature\",");
@@ -81,7 +84,10 @@ void loop() {
     }
 
     if (request == "tempc") {
-      remoteJSONHeaders();
+      client.println("Status: 200");
+      client.println("Content-type: application/json");
+      client.println("Access-Control-Allow-Origin: *");
+      client.println(); //mandatory blank line
 
       // JSON response
       client.print("{\"type\":\"temperature\",");
@@ -93,7 +99,10 @@ void loop() {
     }
 
     if (request == "tempk") {
-      remoteJSONHeaders();
+      client.println("Status: 200");
+      client.println("Content-type: application/json");
+      client.println("Access-Control-Allow-Origin: *");
+      client.println(); //mandatory blank line
 
       // JSON response
       client.print("{\"type\":\"temperature\",");
@@ -105,7 +114,10 @@ void loop() {
     }
 
     if (request == "hum") {
-      remoteJSONHeaders();
+      client.println("Status: 200");
+      client.println("Content-type: application/json");
+      client.println("Access-Control-Allow-Origin: *");
+      client.println(); //mandatory blank line
 
       // JSON response
       client.print("{\"type\":\"humidity\",");
@@ -117,7 +129,10 @@ void loop() {
     }
 
     if (request == "hif") {
-      remoteJSONHeaders();
+      client.println("Status: 200");
+      client.println("Content-type: application/json");
+      client.println("Access-Control-Allow-Origin: *");
+      client.println(); //mandatory blank line
 
       // JSON response
       client.print("{\"type\":\"index\",");
@@ -129,7 +144,10 @@ void loop() {
     }
 
     if (request == "hic") {
-      remoteJSONHeaders();
+      client.println("Status: 200");
+      client.println("Content-type: application/json");
+      client.println("Access-Control-Allow-Origin: *");
+      client.println(); //mandatory blank line
 
       // JSON response
       client.print("{\"type\":\"index\",");
@@ -142,7 +160,10 @@ void loop() {
     }
 
     if (request == "dp") {
-      remoteJSONHeaders();
+      client.println("Status: 200");
+      client.println("Content-type: application/json");
+      client.println("Access-Control-Allow-Origin: *");
+      client.println(); //mandatory blank line
 
       // JSON response
       client.print("{\"type\":\"index\",");
@@ -155,7 +176,10 @@ void loop() {
     }
 
     if (request == "light") {
-      remoteJSONHeaders();
+      client.println("Status: 200");
+      client.println("Content-type: application/json");
+      client.println("Access-Control-Allow-Origin: *");
+      client.println(); //mandatory blank line
 
       // JSON response
       client.print("{\"type\":\"index\",");
@@ -168,7 +192,10 @@ void loop() {
     }
 
     if (request == "time") {
-      remoteJSONHeaders();
+      client.println("Status: 200");
+      client.println("Content-type: application/json");
+      client.println("Access-Control-Allow-Origin: *");
+      client.println(); //mandatory blank line
 
       // JSON response
       client.print("{\"type\":\"time\",");
@@ -213,8 +240,7 @@ double fToC(double fahrenheit) {
 }
 
 // Common JSON response headers to allow remote API calls
-void remoteJSONHeaders() {
-  YunClient client = server.accept();
+YunClient remoteJSONHeaders(YunClient client) {
   client.println("Status: 200");
   client.println("Content-type: application/json");
   client.println("Access-Control-Allow-Origin: *");
