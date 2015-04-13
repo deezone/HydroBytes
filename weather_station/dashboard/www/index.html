@@ -25,7 +25,7 @@
         value: 0,
         min: 0,
         max: 100,
-        title: "Temperature",
+        title: "Temperature (&deg;C)",
         label: "Temperature"
       });
       var g2 = new JustGage({
@@ -44,44 +44,56 @@
         title: "Heat Index",
         label: "Heat Index"
       });
+
+      console.log("Waiting to load guage data ...");
       setInterval(function(){
-        
-        setTimer(function(){
+
+        console.log("Loading http://10.0.1.18/arduino/tempc ...");
+        setTimeout(function(){
           $.ajax({
-              type: 'GET',
-              url: "http://10.0.1.18/arduino/tempf",
-              success: function( response ) {
-                  console.log( response ); // server response
-                  g1.refresh(response.value);
-              },
+            type: 'GET',
+            url: "http://10.0.1.18/arduino/tempc",
+            success: function( data, status, xhr ) {
+              console.log("status: " + status + "\n" + data );
+              g1.refresh(data.value);
+            },
+            error: function( request, status, error ) {
+              console.log("status: " + status + " - error: " + error + "\n" + data );
+            }
           });
         }, 5000);
 
-        setTimer(function(){
+        console.log("Loading http://10.0.1.18/arduino/hum ...");
+        setTimeout(function(){
           $.ajax({
-              type: 'GET',
-              url: "http://10.0.1.18/arduino/hum",
-  
-              success: function( response ) {
-                  console.log( response ); // server response
-                  g2.refresh(response.value);
-              },
+            type: 'GET',
+            url: "http://10.0.1.18/arduino/hum",
+            success: function( data, status, xhr ) {
+              console.log("status: " + status + "\n" + data );
+              g2.refresh(data.value);
+            },
+            error: function( request, status, error ) {
+              console.log("status: " + status + " - error: " + error + "\n" + data );
+            }
           });
         }, 5000);
 
-        setTimer(function(){
+        console.log("Loading http://10.0.1.18/arduino/hic ...");
+        setTimeout(function(){
           $.ajax({
-              type: 'GET',
-              url: "http://10.0.1.18/arduino/hif",
-  
-              success: function( response ) {
-                  console.log( response ); // server response
-                  g3.refresh(response.value);
-              },
+            type: 'GET',
+            url: "http://10.0.1.18/arduino/hic",
+            success: function( data, status, xhr ) {
+              console.log("status: " + status + "\n" + data );
+              g3.refresh(data.value);
+            },
+            error: function( request, status, error ) {
+              console.log("status: " + status + " - error: " + error + "\n" + data );
+            }
           });
         }, 5000);
-        
-      }, 600000);
+
+      }, 20000);
   };
 
     </script>
