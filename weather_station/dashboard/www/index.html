@@ -23,10 +23,14 @@
         var g1 = new JustGage({
         id: "g1",
         value: 0,
-        min: 0,
-        max: 100,
-        title: "Temperature (&deg;C)",
-        label: "Temperature"
+        min: -30,
+        max: 50,
+        title: "Temperature",
+        label: "(degrees C)",
+        refreshAnimationType: "bounce",
+        levelColorsGradient: true,
+        showInnerShadow: true,
+        shadowOpacity: 50.0
       });
       var g2 = new JustGage({
         id: "g2",
@@ -34,18 +38,26 @@
         min: 0,
         max: 100,
         title: "Humidity",
-        label: "Humidity"
+        label: "% chance of precipitation.",
+        refreshAnimationType: "bounce",
+        levelColorsGradient: true,
+        showInnerShadow: true,
+        shadowOpacity: 50.0
       });
       var g3 = new JustGage({
         id: "g3",
         value: 0,
-        min: 0,
-        max: 100,
+        min: -30,
+        max: 50,
         title: "Heat Index",
-        label: "Heat Index"
+        label: "How hot does it feel?",
+        refreshAnimationType: "bounce",
+        levelColorsGradient: true,
+        showInnerShadow: true,
+        shadowOpacity: 50.0
       });
 
-      console.log("Waiting to load guage data ...");
+      console.log("Waiting to load gauge data ...");
       setInterval(function(){
 
         console.log("Loading http://10.0.1.18/arduino/tempc ...");
@@ -54,11 +66,11 @@
             type: 'GET',
             url: "http://10.0.1.18/arduino/tempc",
             success: function( data, status, xhr ) {
-              console.log("status: " + status + "\n" + data );
+              console.log("status: " + status + "\n" + JSON.stringify(data, null, 4) );
               g1.refresh(data.value);
             },
             error: function( request, status, error ) {
-              console.log("status: " + status + " - error: " + error + "\n" + data );
+              console.log("status: " + status + " - error: " + error + "\n" + JSON.stringify(data, null, 4));
             }
           });
         }, 5000);
@@ -69,11 +81,11 @@
             type: 'GET',
             url: "http://10.0.1.18/arduino/hum",
             success: function( data, status, xhr ) {
-              console.log("status: " + status + "\n" + data );
+              console.log("status: " + status + "\n" + JSON.stringify(data, null, 4) );
               g2.refresh(data.value);
             },
             error: function( request, status, error ) {
-              console.log("status: " + status + " - error: " + error + "\n" + data );
+              console.log("status: " + status + " - error: " + error + "\n" + JSON.stringify(data, null, 4) );
             }
           });
         }, 5000);
@@ -84,22 +96,23 @@
             type: 'GET',
             url: "http://10.0.1.18/arduino/hic",
             success: function( data, status, xhr ) {
-              console.log("status: " + status + "\n" + data );
+              console.log("status: " + status + "\n" + JSON.stringify(data, null, 4) );
               g3.refresh(data.value);
             },
             error: function( request, status, error ) {
-              console.log("status: " + status + " - error: " + error + "\n" + data );
+              console.log("status: " + status + " - error: " + error + "\n" + JSON.stringify(data, null, 4) );
             }
           });
         }, 5000);
 
       }, 20000);
   };
-
+<!-- 192.168.240.1 -->
+<!-- 10.0.1.18 -->
     </script>
   </head>
   <body>    
-    BLA<div id="g1"></div>
+    <div id="g1"></div>
     <div id="g2"></div>
     <div id="g3"></div>
   </body>
