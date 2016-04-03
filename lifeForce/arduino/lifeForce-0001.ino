@@ -27,8 +27,9 @@ void setup()
 void loop()
 {
 
-  bool takeReading = takeReading(loopCount);
   loopCount++;
+
+  boolean takeReading = timeToRead(loopCount);
   if (takeReading) {
     readingCount++;
     Serial.print("Reading count: ");
@@ -55,11 +56,15 @@ void loop()
 /**
  * 
  */
-boolean takeReading(int loopCount)
+boolean timeToRead(int loopCount)
 {
   boolean takeReading = false;
   // @todo: Make 5000 constant: 
-  int countModulo = loopCount % 5000;
+  int countModulo = loopCount % 500;
+
+  Serial.print("countModulo = ");
+  Serial.println(countModulo);
+
   if (countModulo == 0) {
     takeReading = true;
   }
@@ -76,6 +81,9 @@ boolean takeReading(int loopCount)
  */
 void ledStatus(float voltage) 
 {
+  Serial.println("ledStatus...");
 
+  Serial.print("voltage = ");
+  Serial.println(voltage);
 }
 
