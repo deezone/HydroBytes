@@ -26,10 +26,16 @@
 #define ledPinGreen2 8
 #define ledPinGreen1 7
 
-int analogPin = A0;
+#define analogPin A0;
+
 int loopCount = 0;
 int readingCount = 0;
 
+/*
+ * setup()
+ *  - serial communicaion rate
+ *  - All of the OUTPUT pins
+ */
 void setup()
 {
   Serial.begin(9600);
@@ -44,6 +50,10 @@ void setup()
   pinMode(ledPinGreen1, OUTPUT);
 }
 
+/*
+ * Gather votage readings on an interval. Based on the detected voltage turn different
+ * coloured LEDs on and off.
+ */
 void loop()
 {
 
@@ -74,7 +84,11 @@ void loop()
 }
 
 /**
+ * timeToRead() - Determine if it's time to take a reading.
  * 
+ * @param int loopCount
+ *   A counter to keep track of the number of times the loop() logic has 
+ *   been performed.
  */
 boolean timeToRead(int loopCount)
 {
@@ -93,7 +107,8 @@ boolean timeToRead(int loopCount)
 }
 
 /**
- * ledStatus()
+ * ledStatus() - Manage the status of the LEDs, turn on or off depepending of the 
+ * voltage reading.
  * 
  * @parm float voltage
  *   The current voltage reading from the probes in the plant. The voltage level
