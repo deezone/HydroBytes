@@ -15,15 +15,45 @@
  * conserve power to allow the monitoring station to have minimum maintenance.
  */
 
-int analogPin = A0;
+// Translates to about 15 second intervals
+#define sampleRate 50000
+
+#define ledPinRed1 13
+#define ledPinYellow3 12
+#define ledPinYellow2 11
+#define ledPinYellow1 10
+#define ledPinGreen3 9
+#define ledPinGreen2 8
+#define ledPinGreen1 7
+
+#define analogPin A0;
+
 int loopCount = 0;
 int readingCount = 0;
 
+/*
+ * setup()
+ *  - serial communicaion rate
+ *  - All of the OUTPUT pins
+ */
 void setup()
 {
-  Serial.begin(19200);
+  Serial.begin(9600);
+
+  // LEDs to indicate moisture reading
+  pinMode(ledPinRed1, OUTPUT);
+  pinMode(ledPinYellow3, OUTPUT);
+  pinMode(ledPinYellow2, OUTPUT);
+  pinMode(ledPinYellow1, OUTPUT);
+  pinMode(ledPinGreen3, OUTPUT);
+  pinMode(ledPinGreen2, OUTPUT);
+  pinMode(ledPinGreen1, OUTPUT);
 }
 
+/*
+ * Gather votage readings on an interval. Based on the detected voltage turn different
+ * coloured LEDs on and off.
+ */
 void loop()
 {
 
@@ -54,25 +84,31 @@ void loop()
 }
 
 /**
+ * timeToRead() - Determine if it's time to take a reading.
  * 
+ * @param int loopCount
+ *   A counter to keep track of the number of times the loop() logic has 
+ *   been performed.
  */
 boolean timeToRead(int loopCount)
 {
   boolean takeReading = false;
-  // @todo: Make 5000 constant: 
-  int countModulo = loopCount % 500;
 
-  Serial.print("countModulo = ");
-  Serial.println(countModulo);
+  // Take initial reading
+  if (loopCount == 1) {
+    takeReading = true;
+  }
 
-  if (countModulo == 0) {
+  int countModulus = loopCount % sampleRate;
+  if (countModulus == 0) {
     takeReading = true;
   }
   return takeReading;
 }
 
 /**
- * ledStatus()
+ * ledStatus() - Manage the status of the LEDs, turn on or off depepending of the 
+ * voltage reading.
  * 
  * @parm float voltage
  *   The current voltage reading from the probes in the plant. The voltage level
@@ -81,9 +117,55 @@ boolean timeToRead(int loopCount)
  */
 void ledStatus(float voltage) 
 {
-  Serial.println("ledStatus...");
 
-  Serial.print("voltage = ");
-  Serial.println(voltage);
+  // Status: Green
+  if (voltage > 4.0 && voltage <= 5.0)
+  {
+    digitalWrite(ledPinGreen1, HIGH);
+    Serial.println("ledPinGreen1 = HIGH (ON)");
+
+    // Turn off all the other LEDs
+    digitalWrite(ledPinGreen2, LOW);
+    digitalWrite(ledPinGreen3, LOW);
+
+    digitalWrite(ledPinYellow1, LOW);
+    digitalWrite(ledPinYellow2, LOW);
+    digitalWrite(ledPinYellow3, LOW);
+
+    digitalWrite(ledPinRed1, LOW);
+  }
+
+  // Status: Yellow
+  if (voltage > 0.5 && voltage <= 4.0)
+  {
+    digitalWrite(ledPinYellow1, HIGH);
+    Serial.println("ledPinYellow1 = HIGH (ON)");
+
+    // Turn off all the other LEDs
+    digitalWrite(ledPinGreen1, LOW);
+    digitalWrite(ledPinGreen2, LOW);
+    digitalWrite(ledPinGreen3, LOW);
+
+    digitalWrite(ledPinYellow2, LOW);
+    digitalWrite(ledPinYellow3, LOW);
+
+    digitalWrite(ledPinRed1, LOW);
+  }
+
+  // Status: Red
+  if (voltage >= 0.0 && voltage <= 0.5)
+  {
+    digitalWrite(ledPinRed1, HIGH);
+    Serial.println("ledPinRed1 = HIGH (ON)");
+
+    // Turn off all the other LEDs
+    digitalWrite(ledPinGreen1, LOW);
+    digitalWrite(ledPinGreen2, LOW);
+    digitalWrite(ledPinGreen3, LOW);
+
+    digitalWrite(ledPinYellow1, LOW);
+    digitalWrite(ledPinYellow2, LOW);
+    digitalWrite(ledPinYellow3, LOW);
+  }
 }
 
