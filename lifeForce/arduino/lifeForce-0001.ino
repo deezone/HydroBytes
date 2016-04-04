@@ -15,6 +15,14 @@
  * conserve power to allow the monitoring station to have minimum maintenance.
  */
 
+#define ledPinRed1 13
+#define ledPinYellow3 12
+#define ledPinYellow2 11
+#define ledPinYellow1 10
+#define ledPinGreen3 9
+#define ledPinGreen2 8
+#define ledPinGreen1 7
+
 int analogPin = A0;
 int loopCount = 0;
 int readingCount = 0;
@@ -22,6 +30,15 @@ int readingCount = 0;
 void setup()
 {
   Serial.begin(19200);
+
+  // LEDs to indicate moisture reading
+  pinMode(ledPinRed1, OUTPUT);
+  pinMode(ledPinYellow3, OUTPUT);
+  pinMode(ledPinYellow2, OUTPUT);
+  pinMode(ledPinYellow1, OUTPUT);
+  pinMode(ledPinGreen3, OUTPUT);
+  pinMode(ledPinGreen2, OUTPUT);
+  pinMode(ledPinGreen1, OUTPUT);
 }
 
 void loop()
@@ -82,6 +99,39 @@ boolean timeToRead(int loopCount)
 void ledStatus(float voltage) 
 {
   Serial.println("ledStatus...");
+
+  if (voltage > 4.0 && voltage <= 5.0)
+  {
+    digitalWrite(ledPinGreen1, HIGH);
+    Serial.println("ledPinGreen1 = HIGH (ON)");
+
+    // Turn off all the other LEDs
+    digitalWrite(ledPinGreen2, LOW);
+    digitalWrite(ledPinGreen3, LOW);
+
+    digitalWrite(ledPinYellow1, LOW);
+    digitalWrite(ledPinYellow2, LOW);
+    digitalWrite(ledPinYellow3, LOW);
+
+    digitalWrite(ledPinRed1, LOW);
+  }
+
+
+  if (voltage >= 0.0 && voltage <= 0.5)
+  {
+    digitalWrite(ledPinRed1, HIGH);
+    Serial.println("ledPinRed1 = HIGH (ON)");
+
+    // Turn off all the other LEDs
+    digitalWrite(ledPinGreen1, LOW);
+    digitalWrite(ledPinGreen2, LOW);
+    digitalWrite(ledPinGreen3, LOW);
+
+    digitalWrite(ledPinYellow1, LOW);
+    digitalWrite(ledPinYellow2, LOW);
+    digitalWrite(ledPinYellow3, LOW);
+  }
+
 
   Serial.print("voltage = ");
   Serial.println(voltage);
