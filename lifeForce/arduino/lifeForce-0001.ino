@@ -57,6 +57,11 @@ void setup()
 void loop()
 {
 
+  // Flush all previous received and transmitted data.
+  // Prevents serial connection errors when the monitor is already 
+  // connected.
+  Serial.flush();
+
   loopCount++;
 
   boolean takeReading = timeToRead(loopCount);
@@ -119,7 +124,7 @@ void ledStatus(float voltage)
 {
 
   // Status: Green
-  if (voltage > 4.0 && voltage <= 5.0)
+  if (voltage > 0.3 && voltage <= 5.0)
   {
     digitalWrite(ledPinGreen1, HIGH);
     Serial.println("ledPinGreen1 = HIGH (ON)");
@@ -136,7 +141,7 @@ void ledStatus(float voltage)
   }
 
   // Status: Yellow
-  if (voltage > 0.5 && voltage <= 4.0)
+  if (voltage > 0.1 && voltage <= 0.3)
   {
     digitalWrite(ledPinYellow1, HIGH);
     Serial.println("ledPinYellow1 = HIGH (ON)");
@@ -153,7 +158,7 @@ void ledStatus(float voltage)
   }
 
   // Status: Red
-  if (voltage >= 0.0 && voltage <= 0.5)
+  if (voltage >= 0.0 && voltage <= 0.1)
   {
     digitalWrite(ledPinRed1, HIGH);
     Serial.println("ledPinRed1 = HIGH (ON)");
