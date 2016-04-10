@@ -25,6 +25,7 @@
 #define ledPinGreen3 9
 #define ledPinGreen2 8
 #define ledPinGreen1 7
+#define ledPinBlue 8
 
 #define analogPin A0;
 
