@@ -1,2 +1,6 @@
 # Ignore OSX system files
 .DS_Store
+
+# Adobe Premere Auto save
+resources/video/Adobe*
+
