@@ -6,10 +6,11 @@ A collection of projects using Internet of Things (IOT) technologies to manage g
 
 A prototype project for automating garden maintance and health monitoring. The goal is create systems for water management and plant monitoring that is coordinated through a private wireless network.
 
-@todo Add YouTube summary
-
-![brooklyn-20201115](https://raw.githubusercontent.com/deezone/HydroBytes/master/resources/gardenBrooklynDiagram-20201115.jpg)
-
 - [Water Management Station](https://github.com/deezone/HydroBytes-WaterManagement)
 - [Base Station](https://github.com/deezone/HydroBytes-BaseStation)
-- [Plant Station]()
+- [Plant Station](https://github.com/deezone/HydroBytes-PlantStation)
+
+@todo Add YouTube summary
+
+![brooklyn-20201115 garden layout](https://raw.githubusercontent.com/deezone/HydroBytes/master/resources/gardenBrooklynDiagram-20201115.jpg)
+![Garden](https://raw.githubusercontent.com/deezone/HydroBytes/master/resources/garden-01.png)
